@@ -1,0 +1,8 @@
+flask 
+flask-MySQL
+flask-SQLAlchemy
+flask-Migrate
+flask-wtf
+mysql-connector-python
+pymysql
+cryptography

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 style="text-align: center;">Temperature Input Form</h2>
+    <form action="" method="post">
+        <fieldset>
+            <legend>Temperature Input Form</legend>
+            {{ form.csrf_token }}
+            <div style="font: size 20px; font-weight:bold; margin-left:150px">
+                {{ form.DeviceID.label }} : {{ form.DeviceID }} <br>
+                {{ form.Temperature.label }} : {{ form.Temperature }} <br>
+                {{ form.submit }}
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
