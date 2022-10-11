@@ -8,13 +8,19 @@ from datetime import datetime
 
 @app.route('/')
 def index():
-    return("<h1>Bienvenido</h1>")
+    context = {
+        'title' : 'Home'
+    }
+    return render_template('index.html', **context)
 
 @app.route('/showtemperatures/')
 def showtemp():
     temps = Temperature.query.all()
     temps = [round(tempe.Temperature, 2) for tempe in temps]
-    return render_template('showtemp.html', temps=temps)
+    context = {
+        'temps' : temps
+    }
+    return render_template('showtemp.html', **context)
 
 @app.route("/addtemp/", methods=['GET', 'POST'])
 def addtemp():
