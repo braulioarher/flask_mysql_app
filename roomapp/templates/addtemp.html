@@ -8,7 +8,12 @@
             {{ form.csrf_token }}
             <div style="font: size 20px; font-weight:bold; margin-left:150px">
                 {{ form.DeviceID.label }} : {{ form.DeviceID }} <br>
+                {% for error in form.DeviceID.erros %} 
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %} 
+                <br>
                 {{ form.Temperature.label }} : {{ form.Temperature }} <br>
+                <br>
                 {{ form.submit }}
             </div>
         </fieldset>

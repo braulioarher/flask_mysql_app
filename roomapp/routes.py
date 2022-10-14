@@ -27,6 +27,7 @@ def showtemp():
     temps = Temperature.query.all()
     temps = [round(tempe.Temperature, 2) for tempe in temps]
     context = {
+        'title' : 'Show Temperatures',
         'temps' : temps
     }
     return render_template('showtemp.html', **context)

@@ -1,4 +1,5 @@
-from roomapp import db
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
 
 class Temperature(db.Model):
     Date = db.Column(db.Date, primary_key=True)
