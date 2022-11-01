@@ -1,1 +1,0 @@
-from roomapp import app

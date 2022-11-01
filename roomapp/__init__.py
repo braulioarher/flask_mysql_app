@@ -1,31 +1,39 @@
-from ensurepip import bootstrap
-from sched import scheduler
 from flask import Flask
-from flask import render_template, request
 from .config import BaseConfig
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
-import pymysql
-
+from ensurepip import bootstrap
+from flask_migrate import Migrate
 from .models import db
-
+import pymysql
 from flask_apscheduler import APScheduler
 
-app = Flask(__name__)
-app.config.from_object(BaseConfig)
-# db = SQLAlchemy()
-migrate = Migrate(app, db)
-bootstrap = Bootstrap(app)
+def create_app(test_config=None):
+    app = Flask(__name__)
+    app.config.from_object(BaseConfig)
 
-db.app = app
-db.init_app(app)
+    #migrate = Migrate(app, db)
+    bootstrap = Bootstrap(app)
 
-scheduler = APScheduler()
-scheduler.init_app(app)
-scheduler.start()
+    db.app = app
+    db.init_app(app)
 
-app.run
+    scheduler = APScheduler()
+    scheduler.init_app(app)
+    scheduler.start()
+
+    if test_config is None:
+        app.config.from_pyfile('config.py', silent=True)
+    else:
+        app.config.from_mapping(test_config)
+
+    from . import routes
+
+    app.register_blueprint(routes.mainBP)
+
+    return app
+
+
+
 
 from roomapp import routes
 

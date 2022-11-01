@@ -1,38 +1,50 @@
 from crypt import methods
 from datetime import datetime
 from multiprocessing import context
-from roomapp import app, db
-from roomapp import render_template, request
+from flask import Blueprint, Flask, render_template, request
+from roomapp import db
 from roomapp.models import Temperature
 from .forms import TempForm
 from datetime import datetime
 
-@app.errorhandler(404)
+app = Flask(__name__)
+
+mainBP = Blueprint(
+    'main',
+    __name__,
+    template_folder='templates'
+)
+
+@mainBP.errorhandler(404)
 def not_found(error):
     return render_template('404.html', error = error)
 
-@app.errorhandler(500)
+@mainBP.errorhandler(500)
 def server_error(error):
     return render_template('500.html', error = error)
 
-@app.route('/')
+@mainBP.route('/')
 def index():
     context = {
         'title' : 'Home'
     }
     return render_template('index.html', **context)
 
-@app.route('/showtemperatures/')
+@mainBP.route('/showtemperatures/')
 def showtemp():
-    temps = Temperature.query.all()
-    temps = [round(tempe.Temperature, 2) for tempe in temps]
+    data = Temperature.query.all()
+    temps = [round(tempe.Temperature, 2) for tempe in data]
+    labels = [str(item.Date) for item in data]
+    values = [int(item) for item in temps]
     context = {
         'title' : 'Show Temperatures',
-        'temps' : temps
+        'temps' : temps,
+        'labels': labels,
+        'values': values
     }
     return render_template('showtemp.html', **context)
 
-@app.route("/addtemp/", methods=['GET', 'POST'])
+@mainBP.route("/addtemp/", methods=['GET', 'POST'])
 def addtemp():
     form = TempForm()
     if request.method == 'POST':
@@ -47,7 +59,7 @@ def addtemp():
         
     return render_template('addtemp.html', form=form)
 
-@app.route("/addtempwtf/", methods=['GET', 'POST'])
+@mainBP.route("/addtempwtf/", methods=['GET', 'POST'])
 def addtempwtf():
     temp_form = TempForm()
     if request.method == 'POST':
@@ -65,3 +77,5 @@ def addtempwtf():
     }
         
     return render_template('addtempwtfquick.html', **context)
+
+app.register_blueprint(mainBP)
