@@ -28,7 +28,7 @@ def create_app(test_config=None):
 
     from . import routes
 
-    app.register_blueprint(routes.mainBP)
+    app.register_blueprint(routes.mainBP, url_prefix='/')
 
     return app
 

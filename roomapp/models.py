@@ -10,3 +10,11 @@ class Temperature(db.Model):
     def __repr__(self):
 
         return (f"<Date: {self.Date}, Temperature: {self.Temperature}>")
+
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False)
+
+    def __repr__(self):
+        return(f"Username: {self.Username}, Email: {self.Email}")

@@ -31,3 +31,9 @@ Ahora para conectarnos a nuestra base de datos basta con usar el siguiente coman
     mysql -u wsl_root -p DATABASENAME -h 172.19.224.1
 
 Listo tenemos acceso a base de datos
+
+## Hash contrasenas
+
+Para hacer el hashing de coontrasenas se necesita un paquete que ya viene incluido al instalar Flask su nombre es Werkzeug de este paquete debemos importar  generate_password_hash y check_password_hash
+
+    from werkzeug.security import generate_password_hash, check_password_hash

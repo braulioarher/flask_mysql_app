@@ -3,8 +3,8 @@ from datetime import datetime
 from multiprocessing import context
 from flask import Blueprint, Flask, render_template, request
 from roomapp import db
-from roomapp.models import Temperature
-from .forms import TempForm
+from roomapp.models import Temperature, Users
+from .forms import TempForm, UserForm
 from datetime import datetime
 
 app = Flask(__name__)
@@ -15,11 +15,11 @@ mainBP = Blueprint(
     template_folder='templates'
 )
 
-@mainBP.errorhandler(404)
+@mainBP.app_errorhandler(404)
 def not_found(error):
     return render_template('404.html', error = error)
 
-@mainBP.errorhandler(500)
+@mainBP.app_errorhandler(500)
 def server_error(error):
     return render_template('500.html', error = error)
 
@@ -77,5 +77,25 @@ def addtempwtf():
     }
         
     return render_template('addtempwtfquick.html', **context)
+
+@mainBP.route('/adduser/', methods=['GET', 'POST'])
+def adduser():
+    user_form = UserForm()
+    if user_form.validate_on_submit():
+        user = Users.query.filter_by(email=user_form.Email.data).first()
+        if user is None:
+            user = Users(name=user_form.Username.data, email=user_form.Email.data)
+            db.session.add(user)
+            db.session.commit()
+        username = user_form.Username.data
+        user_form.Username.data = ''
+        user_form.Email.data = ''
+    our_users = Users.query.order_by(Users.id)
+    context = {
+        'title' : 'User List',
+        'user_form' : user_form,
+        'our_users' : our_users
+    }
+    return render_template('adduser.html', **context)
 
 app.register_blueprint(mainBP)

@@ -6,3 +6,8 @@ class TempForm(FlaskForm):
     Temperature = StringField("Temperature", [validators.DataRequired()])
     submit = SubmitField("Submit")
 
+class UserForm(FlaskForm):
+    Username = StringField('Username', [validators.DataRequired()])
+    Email = StringField('Email', [validators.DataRequired()])
+    submit = SubmitField('Submit')
+

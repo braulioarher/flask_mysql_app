@@ -1,0 +1,39 @@
+.navbar-expand-lg {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white !important;
+  }
+
+.navbar-brand{
+    color: white;
+    
+}
+.navbar-brand:hover {
+    color: #0dcaf0;
+}
+
+.nav-link{
+    color: white !important;
+}
+
+.nav-link:hover{
+    color: #0dcaf0 !important;
+}
+
+.dropdown-menu{
+    color: aliceblue !important;
+}
+
+.dropdown-item{
+    color: black !important;
+}
+.dropdown-menu:hover{
+    color: #0dcaf0 !important;
+}
+
+button.btn{
+    background-color: blue;
+    color: white;
+    border: 0;
+}
+
+  
