@@ -37,3 +37,5 @@ Listo tenemos acceso a base de datos
 Para hacer el hashing de coontrasenas se necesita un paquete que ya viene incluido al instalar Flask su nombre es Werkzeug de este paquete debemos importar  generate_password_hash y check_password_hash
 
     from werkzeug.security import generate_password_hash, check_password_hash
+
+No dirigimos a nuestro modelo Users donde agregaremos una columna llama password_hash que almacenara la contrasena, tambien creamos metodo properties para generar y validar la contrasena por medio de las clases generate_password_hash, check_password_hash

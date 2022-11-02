@@ -1,11 +1,12 @@
 from crypt import methods
 from datetime import datetime
 from multiprocessing import context
-from flask import Blueprint, Flask, render_template, request
+from flask import Blueprint, Flask, render_template, request, flash
 from roomapp import db
 from roomapp.models import Temperature, Users
 from .forms import TempForm, UserForm
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -81,15 +82,18 @@ def addtempwtf():
 @mainBP.route('/adduser/', methods=['GET', 'POST'])
 def adduser():
     user_form = UserForm()
-    if user_form.validate_on_submit():
+    if request.method == 'POST':
         user = Users.query.filter_by(email=user_form.Email.data).first()
+        flash("Form submitted")
         if user is None:
-            user = Users(name=user_form.Username.data, email=user_form.Email.data)
+            hashed_pw = generate_password_hash(user_form.password_hash.data, "sha256")
+            user = Users(name=user_form.Username.data, email=user_form.Email.data, password_hash=hashed_pw)
             db.session.add(user)
             db.session.commit()
         username = user_form.Username.data
         user_form.Username.data = ''
         user_form.Email.data = ''
+        user_form.password_hash.data = ''
     our_users = Users.query.order_by(Users.id)
     context = {
         'title' : 'User List',

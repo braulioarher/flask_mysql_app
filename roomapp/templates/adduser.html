@@ -2,11 +2,45 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block content %}
-<h1>User list</h1>
-<div class="shadow-lg p-3 mb-5 bg-body rounded">
-    <div class="container">
-        {{ wtf.quick_form(user_form) }}
+
+{% for message in get_flashed_messages() %}
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+    
+{% endfor%}
+<div class="b-example-divider"></div>
+
+<div class="container col-xl-10 col-xxl-8 px-4 py-5">
+  <div class="row align-items-center g-lg-5 py-5">
+    <div class="col-lg-7 text-center text-lg-start">
+      <h1 class="display-4 fw-bold lh-1 mb-3">Sing up for getting all the benefits</h1>
+      <p class="col-lg-10 fs-4"></p>
+    </div>
+    <div class="col-md-10 mx-auto col-lg-5">
+      <form class="p-4 p-md-5 border rounded-3 bg-light" method="post">
+          <div class="form-floating mb-3">
+            {{ user_form.Username(type="text", class="form-control", id="floatingInput", placeholder="username")}}
+            {{ user_form.Username.label(for="floatingInput")}}
+          </div>
+          <div class="form-floating mb-3">
+            {{ user_form.Email(type="email", class="form-control", id="floatingInput", placeholder="name@example.com") }}
+            {{ user_form.Email.label(for="floatingEmail") }}
+          </div>
+          <div class="form-floating mb-3">
+            {{ user_form.password_hash(type="password", class="form-control", id="floatingPassword", placeholder="Password") }}
+            {{ user_form.password_hash.label(for="floatingPassword") }}
+          </div>
+          <div class="form-floating mb-3">
+            {{ user_form.password_hash2(type="password", class="form-control", id="password_hash2", placeholder="Password") }}
+            {{ user_form.password_hash2.label(for="password_hash2") }}
+          </div>
+          {{ user_form.submit(class="w-100 btn btn-lg btn-primary") }}
+      </form>
+    </div>
+  </div>
 </div>
 <br><br><br>
 <table class="table table-hover table-bordered table-striped">

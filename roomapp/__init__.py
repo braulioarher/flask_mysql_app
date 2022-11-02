@@ -7,6 +7,7 @@ from .models import db
 import pymysql
 from flask_apscheduler import APScheduler
 
+
 def create_app(test_config=None):
     app = Flask(__name__)
     app.config.from_object(BaseConfig)

@@ -1,13 +1,16 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, validators
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, ValidationError
+from wtforms.validators import DataRequired, EqualTo, Length
 
 class TempForm(FlaskForm):
-    DeviceID = StringField("Device ID", [validators.DataRequired(message="Te felicito")])
-    Temperature = StringField("Temperature", [validators.DataRequired()])
+    DeviceID = StringField("Device ID", [DataRequired(message="Te felicito")])
+    Temperature = StringField("Temperature", [DataRequired()])
     submit = SubmitField("Submit")
 
 class UserForm(FlaskForm):
-    Username = StringField('Username', [validators.DataRequired()])
-    Email = StringField('Email', [validators.DataRequired()])
+    Username = StringField('Username', [DataRequired()])
+    Email = StringField('Email', [DataRequired()])
+    password_hash = PasswordField('Password', validators=[DataRequired(), EqualTo('password_hash2', message='Passwords Must Match!')])
+    password_hash2 = PasswordField('Confirm Password', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
