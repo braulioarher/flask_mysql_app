@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for message in get_flashed_messages() %}
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+{% endfor%}
+
+{% if email %}
+    <h1>Email: {{ email }}</h1>
+    <h1>Password: {{ password }}</h1>
+    <br>
+    <h2>I found this info:</h2>
+    Name : {{ pw_to_check.name }}
+    <br>
+    Email : {{ pw_to_check.email }}
+    <br>
+    PW : {{ pw_to_check.password_hash }}
+    <br>
+    Passed: {{ passed }}
+{% else %}
+<div class="outer">
+    <div class="form-signin w-100 m-auto">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            
+            <img class="mb-4" src="{{url_for('static', filename='img/bootstrap-logo.svg')}}" alt="" width="72" height="57">
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        
+            <div class="form-floating">
+            {{ form.email(type="email", class="form-control", id="floatingInput", placeholder="name@example.com")}}
+            {{ form.email.label(for="floatingInput") }}
+            </div>
+            <div class="form-floating">
+            {{ form.password_hash(type="password", class="form-control", id="floatingPassword", placeholder="Password") }}
+            {{ form.password_hash.label(for="floatingPassword") }}
+            </div>
+            <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+            </div>
+            {{ form.submit(class="w-100 btn btn-lg btn-primary", type="submit") }}
+            <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
+        </form>
+    </div>
+</div>   
+
+{% endif %}
+
+{% endblock %}

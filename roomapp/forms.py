@@ -14,3 +14,7 @@ class UserForm(FlaskForm):
     password_hash2 = PasswordField('Confirm Password', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+class PasswordForm(FlaskForm):
+    email = StringField("What is your Email", validators=[DataRequired()])
+    password_hash = PasswordField("What's your Password", validators=[DataRequired()])
+    submit = SubmitField('Sign in')

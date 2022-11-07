@@ -4,7 +4,7 @@ from multiprocessing import context
 from flask import Blueprint, Flask, render_template, request, flash
 from roomapp import db
 from roomapp.models import Temperature, Users
-from .forms import TempForm, UserForm
+from .forms import TempForm, UserForm, PasswordForm
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -82,7 +82,7 @@ def addtempwtf():
 @mainBP.route('/adduser/', methods=['GET', 'POST'])
 def adduser():
     user_form = UserForm()
-    if request.method == 'POST':
+    if user_form.validate_on_submit():
         user = Users.query.filter_by(email=user_form.Email.data).first()
         flash("Form submitted")
         if user is None:
@@ -101,5 +101,35 @@ def adduser():
         'our_users' : our_users
     }
     return render_template('adduser.html', **context)
+
+@mainBP.route('/test_pw/', methods=['GET', 'POST'])
+def test_pw():
+    email = None
+    password = None
+    pw_to_check = None
+    passed = None
+    form  = PasswordForm()
+
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password_hash.data
+        #Limpia el formulario
+        form.email.data = ''
+        form.password_hash.data = ''
+
+        pw_to_check = Users.query.filter_by(email=email).first()
+
+        # Verificar password
+        passed = check_password_hash(pw_to_check.password_hash, password)
+    context = {
+        'title' : 'Check Password',
+        'form' : form,
+        'email' : email,
+        'password' : password ,
+        'pw_to_check' : pw_to_check,
+        'passed' : passed
+    }
+    return render_template("test_pw.html", **context)
+
 
 app.register_blueprint(mainBP)
