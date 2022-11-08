@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Archivo models.py</h2>
+        <br>
+        <p>El archivo <b><i>models.py</i></b> nos sirve para definir clases las cuales pueden hacer referencia a las tablas de nuestra base de datos, donde se podra definir una tabla, sus columnas y la relacion que existe entre las tablas de la base de datos el ejemplo de una estructura basica del domuento <b><i>models.py</i></b> se muestra a continuacion:</p>
+        <blockquote class="blockquote">
+          <p>Codigo.</p>
+        </blockquote>
+        <code style="color: blue; font-size: 18px;">
+            from flask_sqlalchemy import SQLAlchemy <br><br>
+
+            db = SQLAlchemy() <br><br>
+
+            class User(db.Model): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;id = db.Column(db.Integer(), primary_key=True) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;username = db.Column(db.String(200)) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;password = db.Column(db.String(200)) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;date = db.Column(db.Date, primary_key=True) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;temperature = db.Column(db.Float(10,2)) <br><br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;def __init__(self, username): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.username = username <br> <br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;def __repr__(self): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 'User: {}'.format(self.username) <br>
+
+        </code>
+        <br>
+        <p>Observamos que usamos el paquete <b>flask-sqlalchemy</b> este es un <b>ORM (Object-Relational-Mapping)</b> con el cual podemos crear una clase llamada <b>User</b> que hacer referencia a una tabla en la base de datos con sus respectivas columnas. El metodo <b><i>__repr__</i></b> regresa en formato la consulta que hagamos a nuestra tabla</p>
+    </article>
+    <br>
+    <article class="blog-post">
+        <h2>Crear relaciones entre tablas</h2>
+        <br>
+        <p>Establecer relacion entre dos modelos permite hacer referencia automaticamente entre objetos de otro modelo, al establecer una relacion entre las tablas los datos pueden ser manejados efectivamente y evitar redundancia</p>
+        <blockquote class="blockquote">
+            <h3>Relacion uno a uno.</h3>
+        </blockquote>
+        <p>En la relacion uno a uno, un registro de la tabla esta asociado con un registro en la otra, para ilustrar como establecer este tipo de relacion se crear un nuevo modelo <b>(Contact)</b> el cual estara asociado a un usuario en especifico</p>
+        <blockquote class="blockquote">
+            <p>Codigo.</p>
+        </blockquote>
+        <code style="color: blue; font-size: 18px;">
+            <p>Agregamos la siguite liena a nuestro modelo User.</p>
+            ...
+            <br>
+            contact = db.relationship('Contact', backref='user', lazy=True, uselist=False) <br>...<br><br>
+
+
+            class Contact(db.Model): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;id = db.Column(db.Integer(), primary_key=True) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;city = db.Column(db.String(200)) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;email = db.Column(db.String(100)) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;phoneno = db.Column(db.String()) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;userid = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False) <br><br>
+        
+            &nbsp;&nbsp;&nbsp;&nbsp;def __init__(self, city, email, phonenum): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.city = city <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.email = email <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.phoneno = phonenum <br> <br>
+        </code>
+        <p>La clase o modelo <b>Contact</b> contiene la columna <b><i>userid</i></b> la cual establece la reacion uno a uno con el id de la tabla <b>User</b> tambien la columna <b><i>userid</i></b> cotiene un <b>Foreign Key Constraint</b> dicho valor de esta columna no puede ser null.</p>
+        <br>
+
+        <blockquote class="blockquote">
+            <h3>Relacion uno a muchos.</h3>
+        </blockquote>
+        <p>En la relacion uno a muchos, un registro de una tabla esta asociado a uno o mas registros de ptra tabla, para entender esto si cosideramos los modelos <b><i>User</i></b> y <b><i>Blogpost</i></b> cada blogpost se escribe por un usuario y un usuario puede tener muchos blogposts entonces se modificara el modelo ya existente <b><i>User</i></b> para de esta forma establecer la relacion uno a muchos entre estos dos modelos</p>
+        <blockquote class="blockquote">
+            <p>Codigo.</p>
+        </blockquote>
+        <code style="color: blue; font-size: 18px;">
+            <p>Agregamos la siguiente linea a nuestro modelo <b>User</b></p>
+            ...
+            <br>
+            blogposts = db.relationship('Blogpost', backref='user', lazy='dynamic') <br>...<br><br>
+
+            class Blogpost(db.Model): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;id = db.Column(db.Integer, primary_key=True) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;title = db.Column(db.String(300)) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;text = db.Column(db.Text()) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;pubish_date = db.Column(db.DateTime()) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;userid = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False) <br><br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;def __init__(self, title): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.title = title <br><br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;def __repr__(self): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return f"Blogpost {self.title} <br>
+        </code>
+        <br>
+        <p>El valor de lazy en el modelo <b><i>User</i></b> establecido como <b>dinamic</b> regresa una colsulta objeto la cual puede ser redefinida antes de cargar la informacion.</p>
+        <p>El modelo <b><i>Blogpost</i></b> define para <b><i>userid</i></b> una <b><i>Foreign Key Constraint</i></b> y esta no puede ser nulo lo que asegura que todos los blogposts se refieran a un usuario</p>
+        <br>
+
+
+        <blockquote class="blockquote">
+            <h3>Relacion muchos a muchos.</h3>
+        </blockquote>
+        <p>En la relacion mucho a muchos cualquier record de una tabla puede estar asociado a culquier record de la otra tabla, para entender esta relacion vamos a considerar dos modelos Blogpost y Tag. En esta relacion cada post puede ser etiquetado a multiples etiquetas, Similar multiples posts pueden tener la misma etiqueta. Definiremos un nuevo modelo Tag y modificaremos el ya existenten BlogPost tambien definiremos una tabla de ayuda tags que se usa para monstar la relacion</p>
+        <blockquote class="blockquote">
+            <p>Codigo.</p>
+        </blockquote>
+
+        <code style="color: blue; font-size: 18px;">
+            <p>Agregamos la siguiente linea a nuestro modelo <b>Blogpost</b></p>
+            ...
+            <br>
+            tags = db.relationship('Tag', secondary=tags, backref=db.backref('blogposts', lazy='dynamic')) <br>...<br><br>
+
+            <p>Creamos una tabla "ayuda"</p> <br>
+            tags = db.Table('blogpost_tags', <br>
+            db.Column('blogpost_id', db.Integer, db.ForeignKey('blogpost.id')), <br>
+            db.Column('tag_id', db.Integer, db.ForeignKey('tag.id')) <br>
+            ) <br> <br>
+
+            class Tag(db.Model): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;id = db.Column(db.Integer(), primary_key=True) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;tagname = db.Column(db.String(255)) <br> <br>
+        
+            &nbsp;&nbsp;&nbsp;&nbsp;def __init__(self, tagname): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.tagname = tagname <br><br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;def __repr__(self): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return f"Tag: {self.tagname}" <br>
+            <br>
+        </code>
+        <br>
+        <p>La variable <b>tags</b> definda no representa un modelo si no una tabla esta es una tabla de ayuda que se usa cuando se requiere acceder a filas individuales, cada fila de la tabla ayuda contiene una o mas filas  de la tabla blogpost que se identifica por <b>blogpost_id</b> y otra de la tabla <b>Tag</b> que se identifica por <b>tag_id</b></p>
+        
+        <p>En la definicion de la relacion en el modelo <b><i>Blogpost</i></b> <b>db.relationship</b> toma un argumento <b>secondary</b> y el valo se asigna a <b><i>tags</i></b> esta relacion le dice a SQLAchemy que la relacion se almacena en la tabla de ayuda tags</p>
+    </article>
+
+    <nav class="blog-pagination" aria-label="Pagination">
+        <a class="btn btn-outline-primary rounded-pill" href="{{ url_for('main.modelsfile') }}">Archivo forms.py</a>
+    </nav>
+</div>
+{% endblock %}

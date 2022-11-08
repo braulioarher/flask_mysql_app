@@ -139,5 +139,9 @@ def crearapp():
 def configfile():
     return render_template('configfile.html')
 
+@mainBP.route('/modelsfile')
+def modelsfile():
+    return render_template('modelsfile.html')
+
 
 app.register_blueprint(mainBP)
