@@ -131,5 +131,13 @@ def test_pw():
     }
     return render_template("test_pw.html", **context)
 
+@mainBP.route('/createapp')
+def crearapp():
+    return render_template('crearapp.html')
+
+@mainBP.route('/configfile')
+def configfile():
+    return render_template('configfile.html')
+
 
 app.register_blueprint(mainBP)

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Archivo config.py</h2>
+        <br>
+        <p>Dentro del archivo <b><i>config.py</i></b> podemos establecer las configuraciones de nuetra app por ejemplo la direccion de nuestra base de datos y nuestra <b>SECRET_KEY</b></p>
+        <blockquote class="blockquote">
+          <p>Codigo.</p>
+        </blockquote>
+        <code style="color: blue; font-size: 15px;">
+            import os <br>
+            basedir = os.path.abspath(os.path.dirname(__file__)) <br><br>
+
+            class Config(object): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'hello.db') <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;SQLALCHEMY_TRACK_MODIFICATIONS = False <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-secret-key' <br>
+        </code>
+        <br>
+        <p>Como se observa se crea una clase <b><i>Config</i></b> la cual herdera a <b>object</b> dentro de esta clase podemos agregar variables de configuracion segun las vayamos necesitando, es importante que una vez configuradas todas nuestras variables de configuracion las importemos dentro de nuestro archivo <b><i>__init__.py</i></b> una vez importado defnimos las configuraciones dede un objeto como se muestra a continuacion</p>
+        <br>
+        <code style="color: blue; font-size: 15px;">
+            from .config import BaseConfig <br><br>
+
+            app.config.from_object(BaseConfig)&nbsp;&nbsp;&nbsp;&nbsp;#Cargamos las configuraciones de la app <br>
+        </code>
+        <br>
+        <nav class="blog-pagination" aria-label="Pagination">
+            <a class="btn btn-outline-primary rounded-pill" href="{{ url_for('main.configfile') }}">Archivo forms.py</a>
+        </nav>
+    </article>
+
+</div>
+{% endblock %}
