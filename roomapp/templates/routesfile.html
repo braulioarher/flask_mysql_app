@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Archivo forms.py</h2>
+        <br>
+        <p>Dentro del archivo <b><i>routes.py</i></b> podemos definir las <b><i>view functions</i></b> las cuales sirven para darle vida a nuestra aplicacion e interactuar con el <b><i></i>frontend</i></b>, entonces aqui definimos las funciones que marcaran el corportamiento de nuestra aplicacion</p>
+        <blockquote class="blockquote">
+          <p>Codigo.</p>
+        </blockquote>
+        <code style="color: blue; font-size: 18px;">
+            from flask import request <br>
+            from helloapp import render_template, redirect, url_for <br>
+            from helloapp import app, db <br>
+            from helloapp.models import User <br>
+            from .forms import UserForm <br> <br>
+
+            @app.route("/") <br>
+            def hello(): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return render_template("index.html", title="Title Page of Hello App", user=None) <br>
+
+        </code>
+        <br>
+        <p>Primeramente importamos desde los modulos a utilizar las funciones y clases que nos ayudan a crear las funciones, tambiem podemos importar de otros archivos <b>Modelos</b> o <b>Formularios</b> y por ultimo debemos de importar la <b><i>app</i></b> ya sea desde el archivo <b><i>__init__.py</i></b> usando el paquete de nuestra aplicacion o bien importar la fucion y crear el app dentro de este archivo</p>
+    </article>
+    
+</div>
+{% endblock %}
