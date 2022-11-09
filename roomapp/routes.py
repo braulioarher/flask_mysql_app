@@ -143,5 +143,12 @@ def configfile():
 def modelsfile():
     return render_template('modelsfile.html')
 
+@mainBP.route('/formsfile')
+def formsfile():
+    return render_template('formsfile.html')
+
+@mainBP.route('/routesfile')
+def routesfile():
+    return render_template('routesfile.html')
 
 app.register_blueprint(mainBP)

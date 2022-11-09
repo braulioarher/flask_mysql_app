@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Archivo forms.py</h2>
+        <br>
+        <p>Dentro del archivo <b><i>forms.py</i></b> podemos definir la estructura de un formulario dicho formulario se puede usar junto con el paquete de <b><i>flask-wtf</i></b> el cual nos ayuda a hacer mas facil la integracion de formularios dentro de nuestro proyecto a continuacion se muesra un ejemplo para definir un formulario</p>
+        <blockquote class="blockquote">
+          <p>Codigo.</p>
+        </blockquote>
+        <code style="color: blue; font-size: 18px;">
+            from flask_wtf import FlaskForm <br>
+            from wtforms import StringField, SubmitField <br><br>
+            
+            class UserForm(FlaskForm): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;fname = StringField("First Name") <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;lname = StringField("Last Name") <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;email = StringField("Email") <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;submit = SubmitField("Submit") <br>
+
+        </code>
+        <br>
+        <p>Observamos que se importa del paquete <b><i>flask_wtf</i></b> la clase <b><i>FlaskForm</i></b> la cual sirve para heredar de ella todas nuestras nuevas clases que seran los campos de los formularios en este caso <b><i>UserForm</i></b> dentro de esta clase definimos los campos usando la clase <b><i>StringField</i></b> importada desde el modulo <b><i>wtforms</i></b> en el caso del submit button se crea una variable y se iniciliza la clase <b><i>SubmitField</i></b></p>
+    </article>
+
+    <article>
+        <br>
+        <h2>Integrar nuestros formularios</h2>
+        <br>
+        <p>Una vez que hemos definido la clase con sus respectivos campos podemos generar un view function que nos ayude a registrar un usuario por medio del metodo <b>"POST"</b> para hacer esto haremos uso de nuestra base de datos</p>
+        <blockquote class="blockquote">
+            <p>Codigo.</p>
+        </blockquote>
+
+        <code style="color: blue; font-size: 18px;">
+            @app.route("/adduser/", methods=['GET', 'POST']) <br>
+            def useradd(): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;form = UserForm() <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if request.method == 'POST': <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user = User(fname=form.fname.data, lname=form.lname.data, email=form.email.data) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try: <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.session.add(user) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.session.commit() <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except Exception: <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.session.rollback() <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return render_template('adduser_confirmation.html', title='Add User Confirmations', username=form.fname.data) <br>    
+            &nbsp;&nbsp;&nbsp;&nbsp;return render_template('adduser.html', title = 'User Input Form', form=form) <br>
+        </code>
+        <br>
+        <p>Dentro de nuestra view function usamos la condicion <b>if</b> para detectar el momento en que se hace una peticion post, creamos una instancia a nuestro modelo <b>User</b> donde asignamos sus atributos a la informacion obtenida desde nuestro formulario, posteriormente tratamos de agregar la instancia a nuestra base de datos mediante el comando <b><i>db.session.add(user)</i></b> y finalizamos con <b><i>db.session.commit()</i></b> en caso de que ocurra un error podemos mostrar un mesaje de lo contrario nos renderiza un template avisando que la peticion se completo correcatament</p>
+        <br>
+        <p>Se crea la ruta <b><i>/adduser/</i></b> la cual en primer instancia renderiza el template <b><i>"adduser.html"</i></b> a este template se le pasan variables como el titula de la pagina asi como tambien nuestro formulario <b><i>form</i></b> este template contiene codigo html que basicamente es este:</p>
+        <blockquote class="blockquote">
+            <p>Codigo.</p>
+        </blockquote>
+        <code style="color: blue; font-size: 18px;">
+            &#123;% extends 'base.html' %&#125; <br>
+            &#123;% block content %&#125; <br>
+            &nbsp;&nbsp;&lt;h2 style="text-align: center;"&gt;User Input Form&lt;/h2&gt; <br>
+            &nbsp;&nbsp;&lt;form action="" method="post"&gt; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;fieldset&gt; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;legend&gt;User Input Form&lt;/legend&gt; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;&#123; form.csrf_token &#125;&#125; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div style="font: size 20px; font-weight:bold; margin-left:150px"&gt; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;&#123; form.fname.label &#125;&#125; : &#123;&#123; form.fname &#125;&#125; &lt;br&gt; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;&#123; form.lname.label &#125;&#125; : &#123;&#123; form.lname &#125;&#125; &lt;br&gt; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;&#123; form.email.label &#125;&#125; : &#123;&#123; form.email &#125;&#125; &lt;br&gt; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;&#123; form.submit &#125;&#125; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/fieldset&gt; <br>
+            &nbsp;&nbsp;&lt;/form&gt; <br>
+            &#123;% endblock %&#125; <br>
+        </code>
+        <br>
+        <p>Dentro de nuestro <b><i>&#123;% block content %&#125;</i></b> definimos un formulario que usa el metodo <b>POST</b> luego integramos el token para proteger la informacion <b><i>"&#123;&#123; form.csrf_token &#125;&#125;"</i></b> posterior podemos integrar los campos necesarios para nuestro formulario usando <b><i>&#123;&#123; form.fname &#125;&#125;</i></b> el cual se refiere al campo que se definio en el archivo <b><i>forms.py</i></b>.</p>
+    </article>
+    
+    <nav class="blog-pagination" aria-label="Pagination">
+        <a class="btn btn-outline-primary rounded-pill" href="{{ url_for('main.formsfile') }}">Archivo routes.py</a>
+    </nav>
+</div>
+{% endblock %}
