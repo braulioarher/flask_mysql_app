@@ -151,4 +151,12 @@ def formsfile():
 def routesfile():
     return render_template('routesfile.html')
 
+@mainBP.route('/flaskcli')
+def flaskcli():
+    return render_template('flaskcli.html')
+
+@mainBP.route('/filtros')
+def filtros():
+    return render_template('filtros.html')
+
 app.register_blueprint(mainBP)

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Uso de filtros en los templates</h2>
+        <br>
+        <p>Los filtros son una funcion ya incluida con jinja que alteran el valor de las variables cambiando como es que se muestran. La sintaxis para usar un filtro es la siguiente:</p>
+        <code style="color: blue; font-size: 15px;">
+            &#123;&#123; variable | filter_name(*arg) &#125;&#125; <br>
+            si el filtro no requiere argumento entonces: <br>
+            &#123;&#123; variable | filter_name(*arg) &#125;&#125; <br>
+        </code>
+        <br>
+        <p>Si alguna variable no contiene valor (None) enotnces podemos remplazar el valor por defecto usando el filtro <b><i>'default'</i></b></p>
+        <code style="color: blue; font-size: 15px;">
+            &#123;&#123; a | default("Default value") &#125;&#125; <br>
+        </code>
+        <br>
+        <h3>Filtros para numero</h3>
+        <p>Dentro de los filtros para numeros podemos encontrar <b>int</b>, <b>float</b> y <b>round</b> su uso es el siguiente:</p>
+        <code style="color: blue; font-size: 15px;">
+            &#123;&#123; 67.7 | int &#125;&#125; -> 67 <br>
+            &#123;&#123; 75 | float &#125;&#125; -> 75 <br><br>
+            # round redondea el valor a un valor flotanto con un numero especifico de decimales <br> <br>
+            &#123;&#123; 5.16725 | round &#125;&#125;   -> 5.0 <br>
+            &#123;&#123; 5.16725 | round(2) &#125;&#125;   -> 5.17 <br>
+            &#123;&#123; 5.16725 | round(3) &#125;&#125;   -> 5.167 <br>
+            &#123;&#123; 5.16725 | round(0, "floor") &#125;&#125;   -> 5.0 <br>
+            &#123;&#123; 5.16725 | round(0, "ceil") &#125;&#125;   -> 6.0 <br>
+        </code>
+        <br>
+        <h3>Filtros para arrays y strings</h3>
+        <p>A continuacion se muestran algunos filtros utiles:</p>
+        <code style="color: blue; font-size: 15px;">
+            # Filtros de arrays <br><br>
+            &#123;&#123; k | join(',') &#125;&#125; -> 8-15-25-88-12-78 <br>
+            &#123;&#123; k | first &#125;&#125; -> 8 <br>
+            &#123;&#123; k | last &#125;&#125; -> 78 <br>
+            &#123;&#123; k | reverse &#125;&#125; -> [78,12,88,25,15,8] <br>
+            &#123;&#123; k | list &#125;&#125; -> [8,15,25,88,12,78] <br>
+            &#123;&#123; k | max &#125;&#125; -> 88 <br>
+            &#123;&#123; k | min &#125;&#125; -> 8 <br>
+            &#123;&#123; k | length &#125;&#125; -> [8,15,25,88,12,78] <br>
+            &#123;&#123; k | sum &#125;&#125; -> 226 <br>
+            {{ [8,15,25,88,12,78] | sum }} <br>
+            # Filtros de strings
+            &#123;&#123; s | lower &#125;&#125;   -> hola mundo <br>
+            &#123;&#123; s | capitalize &#125;&#125;   -> Hola mundo <br>
+            &#123;&#123; s | first &#125;&#125;   -> H <br>
+            &#123;&#123; s | last &#125;&#125;   -> o <br>
+            &#123;&#123; s | wordcount &#125;&#125;   -> 2 <br>
+            &#123;&#123; s | title &#125;&#125;   -> Hola Mundo <br>
+            &#123;&#123; s | trim &#125;&#125;   -> Hola mundo <br>
+            &#123;&#123; s | replace('mundo', 'braulio') &#125;&#125;   -> Hola braulio <br>
+            {{ 'Hola mundo' | trim}} <br>
+            # Filtros para diccionarios <br>
+            &#123;&#123; dict | dictsort(by='value', reverse=True) &#125;&#125;   -> [('Braulio', 100), ('Dinesh', 50)] <br>
+            &#123;&#123; dict | tojson &#125;&#125;   -> {"Braulio": 100, "Dinesh": 50} <br>
+            {{ {'Braulio' : 100, 'Dinesh': 50} | tojson }}
+            # Para encadenar filtros
+            &#123;&#123; s | lower | &#125;&#125;   -> Hola mundo <br>
+        </code>
+        <br>
+        <h3>Filtros personalizados</h3>
+        <p>A parte de los filtros ya incluidos por defectos podemos crear filtros personalizados y usarlos en nuestros templates, un filtro personalizado es basicamente una funcion regular de Python esta funcion debe ser definida y despues agregar al entorno usando jinja_env.filters</p>
+        <code style="color: blue; font-size: 15px;">
+            def startswith(word, tag): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if word.startswith(tag): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return tag + '-word' <br><br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;return 'non-' + tag + '-word' <br> <br>
+
+            app.jinja_env.filters['startswith'] = startswith <br>
+        </code>
+        <br>
+        <h5>Uso de los filtros personalizados</h5>
+        <p>El filtro personalizado <b><i>startwith</i></b> definido anteriormente verifica si un string empieza con una tag en especifico o no ejemplo:</p>
+        <code style="color: blue; font-size: 15px;">
+            &#123;&#123; 'university' | startswith('un' ) &#125;&#125;       ->  un-university <br>
+            &#123;&#123; 'university' | startwith('pre') &#125;&#125;        -> non-pre-univesity <br>
+        </code>
+        <br>
+        <p>Si el string empieza con la tag especificada entoces regresa <b><i>tag-word</i></b> de lo contrario regresa <b><i>non-tag-word</i></b></p>
+    </article>
+    
+</div>
+{% endblock %}

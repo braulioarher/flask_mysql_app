@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Linea de comandos de Flask</h2>
+        <br>
+        <p>En el entorno de Flask un scrip llamado flask esta disponible el cual nos da comandos, extensiones y la aplicacion, cuando ejecutamos un comando en la terminal esta nos muetra la sintaxis de los scrips de Flask y dicha CLI ya viene con algunos comandos disponibles la sintaxis de un script en Flask es:</p>
+        <code style="color: blue; font-size: 15px;">
+            flask [options] COMMAND [ARG]
+        </code>
+        <br> <br>
+        <h3>Comandos de Flask</h3>
+        <p>Estos son los comandos disponibles de Flask:</p>
+        <ul>
+            <li>routes - Muestra kas rutas disponibles para la app</li>
+            <li>run - Correl el servidor de desarrollo</li>
+            <li>shell - Inicia a Python shell en el contexto de la aplicacion</li>
+        </ul>
+        <p>Antes de correr cualquier comando la variable de entorno FLASK_APP se debe de declara usando: <b><i>export FLASK_APP=main.py</i></b> o bien <b><i>export FLASK_APP=foldername</i></b></p>
+
+        <h5>Importar objetos a la CLI de Flask</h5>
+        <p>Podemos importar objetos automaticamente cuando la shell carga y esto se logra mediante el decorador <b><i>shell_context_processor</i></b> una vez creada la intancia <b><i>app</i></b> podemos crear una funcion que puede vivir en el documento <b><i>routes.py</i></b> o directamente en <b><i>__init__.py</i></b></p>
+        <code style="color: blue; font-size: 15px;">
+            @app.shell_context_processor <br>
+            def make_shell_context(): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return dict(app=app, x=25, y=65) <br>
+        </code>
+        <br><br>
+        <p>Al ejecutar el comando <b><i>flask shell</i></b> obtendremos:</p>
+        <code style="color: blue; font-size: 15px;">
+            $ flask shell <br>
+            Python 3.5.0 (...)... <br>
+            App: hello <br>
+            Instance: ...../project/instance <br>
+            >>> print(app) <br>
+            &lt;Flask 'hello'&gt; <br>
+            >>> print(x) <br>
+            25 <br>
+            >>> print(y) <br>
+            65 <br>
+        </code>
+        <br>
+        <p>El ejemplo anterior muestra que los objetos app, x, y son importados al iniciar la shell</p>
+        <h3>Crear un comando personalizado</h3>
+        <p>Aparte de los tres comandos presentados tambiense puede crear un propio comando personalizado para esto se debe de importar el paquete click y usar el decorador <b><i>cli.command()</i></b> y <b><i>click.argument('name')</i></b></p>
+        <code style="color: blue; font-size: 15px;">
+            from flask import Flask <br>
+            import click <br>
+    
+            app = Flask(__name__) <br>
+    
+            @app.cli.command() <br>
+            @click.argument('name') <br>
+            def mycommand(name): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;print(name) <br>
+        </code>
+        <br>
+        <p>La funcion <b><i>mycommand</i></b> toma el argumento name mientras que el decorador <b><i>cli.command()</i></b> agrega el comando a nuestra CLI con esto ya podemos correr el comando <b><i>mycommand</i></b> desde la terminar <b><i>$ flask mycommand John</i></b> el cual arroja <b>John</b> como salida</p>
+    </article>
+    
+</div>
+{% endblock %}
