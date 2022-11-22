@@ -181,9 +181,16 @@ def session():
 def restapi():
     return render_template('restapi.html')
 
-@mainBP.route('/notaswings')
-def notaswings():
-    return render_template('notaswings.html')
+
+# Seccion notas 
+
+@mainBP.route('/request')
+def request():
+    return render_template('request.html')
+
+@mainBP.route('/jsonify')
+def jsonify():
+    return render_template('jsonify.html')
 
 
 

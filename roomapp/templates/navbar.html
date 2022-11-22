@@ -43,12 +43,24 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Ejercicios con flask
+            Ejercicios Wings
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{{ url_for('main.restapi') }}">Wings RESTWebApi</a></li>
+            <!-- <li><hr class="dropdown-divider"></li> -->
+            <!-- <li><a class="dropdown-item" href="{{ url_for('main.request') }}">Notas y atajos wings</a></li> -->
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Notas y atajos
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ url_for('main.request') }}">flask.request</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.jsonify') }}">flask.jsonify</a></li>
+
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{{ url_for('main.notaswings') }}">Notas y atajos wings</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.jsonify') }}">Notas y atajos wings</a></li>
           </ul>
         </li>
       </ul>

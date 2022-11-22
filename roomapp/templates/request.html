@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Notas y atajos para examen wings</h2>
+        <br>
+        <h3>flask.request</h3>
+        <p>Las aplicaciones frecuentemente requieren procesar informacion del usuario dicha informacion puede venir en forma de strings, imformacion de formularions y objetos JSON en flask podemos acceder a dicha informacion </p>
+        <blockquote class="blockquote">
+            <p>Query Arguments</p>
+        </blockquote>
+        <p>Los argumentos que se pasan por medio de un URL son una forma comun de pasar informaciona la aplicacion por ejemplo podemos pasar <b><i>http://localhost:5001/api/public/product/search?arg1=value1&arg2=value2</i></b> los query string empiezan despues del simbolo <b>?</b> y si queremos agregar mas argumentos usamos <b><i>&</i></b> para emplear esto en nuestra app seria</p>
+        <code style="color: blue; font-size: 15px;">
+            @app.route('/query-example') <br>
+            def query_example(): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp; arg = request.args.get('arg1') <br>
+            &nbsp;&nbsp;&nbsp;&nbsp; return f"Argument1: {arg}" <br>
+        </code>
+        <br>
+        <p>Tambien podemos usar <b><i>arg2 = request.args['arg2']</i></b> omitiendo el <b>.get</b> de esta forma si se usa en el codigo regresara un error de lo contrario usando <b>.get</b> en caso contrario que el argumento no se pase por medio del URL python asigna el valor de <b>None</b></p>
+
+
+        <blockquote class="blockquote">
+            <p>Usando Form Data</p>
+        </blockquote>
+        <p>La informacion Form Data proviene de un formulario que se configurado para mandar una peticion <b>POST</b> por lo que en lugar de ver la informacion en la URL, la informacion sera pasada a la aplicacion detras de escena</p>
+        <code style="color: blue; font-size: 15px;">
+            @app.route('/form-example', methods=['GET', 'POST']) <br>
+            def form_example(): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp; if request.method == 'POST':<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; language = request.from.get('language') <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; framework = request.form.get('framework') <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return ''' <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;h1&#62;The language value is: {}&#60;/h1&#62; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;h1&#62;The framework value is: {}&#60;/h1&#62;'''.format(language, framework)''' <br>
+
+            #Lo que maneja la peticion GET <br>
+            &nbsp;&nbsp;&nbsp;&nbsp; return ''' <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;form method="POST"&#62; <br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;div&#62;&#60;label&#62;Language: &#60;input type="text" name="language"&#62;&#60;/label&#62;&#60;/div&#62; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;div&#62;&#60;label&#62;Framework: &#60;input type="text" name="framework"&#62;&#60;/label&#62;&#60;/div&#62; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#60;input type="submit" value="Submit"&#62; <br>
+        </code>
+        <br>
+        <p>Ahora podemos ir a nuestro navegador llenar la informacion y presionar sumbit y nuestra ruta manejara la informacion</p>
+
+        <blockquote class="blockquote">
+            <p>Usando Json Data</p>
+        </blockquote>
+        <p>La estructura de JSON permite mas que se pase informacion mas complicada contrario a query strings y fata forms en este caso en vez de enviar informacion a travez del navegador se envia por medio de Postman</p>
+        { <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;"language" : "Python", <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;"framework" : "Flask", <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;"website" : "Scotch", <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;"version_info" : { <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"python" : "3.9.0", <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"flask" : "1.1.2" <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}, <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"examples" : ["query", "form", "json"], <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"boolean_test" : true <br>
+        } <br> <br>
+        <code style="color: blue; font-size: 15px;">
+
+            @app.route('/json-example', methods=['POST']) <br>
+            def json_example(): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;request_data = request.get_json()<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;language = request_data['language'] <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;framework = request_data['framework'] <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;#Se necesitan dos keys porque son objetos anidados <br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;return ''' <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&#60;h1&#62;The language value is: {}&#60;/h1&#62; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&#60;h1&#62;The framework value is: {}&#60;/h1&#62;'''.format(language, framework)''' <br>
+        </code>
+        <br>
+        <p>Note que se puede acceder a elementos que no estan en el nivel superio <b><i>['version']['python']</i></b> se pueden usar para entrar a objetos anidados mientras que <b><i>['examples'][0]</i></b> accede al indice 0 en el array examples</p>
+
+    </article>
+</div>
+{% endblock %}
