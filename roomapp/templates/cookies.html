@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Cookies</h2>
+        <br>
+        <p>Una <b><i>cookie</i></b> se refiere a enviar informacion desde un servidor web y almacenar la informacion en la computadora del cliente dentro de un archivo. El principal objetivo de las cookies es rastraer la actividad del usuario en un sitio web para mejorar la experiencia de usuario</p>
+        <h3>Cookies en Flask</h3>
+        <p>En una aplicacion Flask, las <b><i>cookies</i></b> pueden ser accedidas desde un atributo de un objeto <b>request</b> el atributo <b><i>cookies</i></b> es un diccionario que contiene todas las variables y sus valores correspondientes que se transmiten por el cliente. Adicionalmente una <b><i>cookie</i></b> se puede establecer usando el metodo <b><i>set_cookie</i></b> en un objeto de respuesta HTML</p>
+        <blockquote class="blockquote">
+            <p>Configurando una cookie.</p>
+        </blockquote>
+        <code style="color: blue; font-size: 15px;">
+            # Se declara la siguiente funcion para establecer la cookie usercount <br>
+            # Si tratamos de acceder al URL /setcookie este establece el numero de usuarioas a usercount <br>
+            @helloBP.route('/setcookie/') <br>
+            def setcookie(): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;nusers = User.query.count() <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;resp = make_response("&#60;h2&#62;'usercount' cookie is sucessfully set.&#60;/h2&#62;") <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;resp.set_cookie('usercount', str(nusers)) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return resp <br>
+        </code>
+        <br>
+        <p>En el ejemplo anterior usamos el metodo <br><i>set_cookie()</i> la cual configura una cookie de nombre <b>usercount</b> la cual regresa una respuesta con la cookie creada</p>
+        <blockquote class="blockquote">
+            <p>Accediendo a la Cookie</p>
+        </blockquote>
+        <code style="color: blue; font-size: 15px;">
+            #Se declara esta funcion para obtener la cookie usercount <br>
+            @helloBP.route('/getcookie/') <br>
+            def getcookie(): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;usercount = request.cookies.get('usercount') <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return (f"Values of 'usercount' is : {usercount}") <br>
+        </code>
+        <br>
+        <p>En el ejemplo anterior definimos una ruta en <b><i>routes.py</i></b> donde cargamos la informacion de la cookie en una variable <i>usercount</i> esto lo logramos usando el metodo <b><i>request.cookies.get('cookiebane')</i></b> posterior a esto regresamos un string con el valor de dicha cookie</p>
+
+        <p>Una nota importante es que podemos tener cuantas cookies como quedramos solo deben tener diferentes nombres y debemos de configurarlas en un ruta en especifico</p>
+    </article>
+    <nav class="blog-pagination" aria-label="Pagination">
+        <a class="btn btn-outline-primary rounded-pill" href="{{ url_for('main.session') }}">Manejo de Session</a>
+    </nav>
+</div>
+{% endblock %}

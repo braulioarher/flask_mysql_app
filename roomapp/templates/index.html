@@ -10,9 +10,13 @@
   <h1 class="display-4 fw-bold">SmartRoom App</h1>
   <div class="col-lg-6 mx-auto">
     <p class="lead mb-4">Welcome to SmartRoom App, A web app build with flask framework by Braulio Arcos, there is a lot to do here about Internet of Things for example monitoring my room devices gadgets</p>
-    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-      <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Learn More</button>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-2">
+      <a type="button" class="btn btn-primary btn-lg px-4 me-sm-3" href="{{ url_for('auth.signup') }}">SignUp for More</a>
     </div>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-1">
+      <a type="button" class="btn btn-primary btn-lg px-4 me-sm-3" href="{{ url_for('auth.signup') }}">Login</a>
+    </div>
+
   </div>
   <div class="overflow-hidden" style="max-height: 30vh;">
     <div class="container px-5">

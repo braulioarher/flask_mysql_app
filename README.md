@@ -42,4 +42,4 @@ No dirigimos a nuestro modelo Users donde agregaremos una columna llama password
 
 ## Ejemplo de un metodo POST
 
-http://localhost:5000/test_pw/?email=braulio.arher%40gmail.com&password_hash=19983006aB&submit=Sign+in
+<http://localhost:5000/test_pw/?email=braulio.arher%40gmail.com&password_hash=19983006aB&submit=Sign+in>

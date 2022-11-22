@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Notas y atajos</h2>
+        <br>
+        <p>En esta pagina se muestran algunos comandos de ayuda muy utiles a la hora de usar Flask</p>
+        <h3>Cargar configuranciones de Flask</h3>
+        <p>En caso de que queramos ver las configuranciones de nuestra aplicacion debemos iniciar nuestra terminal de Flask usando el siguiente comando <b><i>flask shell</i></b> posterior </p>
+        <blockquote class="blockquote">
+            <p>Visualizando configuraciones</p>
+        </blockquote>
+        <code style="color: blue; font-size: 15px;">
+            &#62;&#62;&#62; from pprint import pprint <br>
+            &#62;&#62;&#62; from project import app <br>
+            &#62;&#62;&#62; pprint(app) <br>
+            &#62;&#62;&#62; pprint(app.config) <br>
+        </code>
+        <br>
+        <p>Aqui podemos ver el estado de todas las variables de configuracion de Flask</p>
+
+        <h3>Rutas con variables</h3>
+        <code style="color: blue; font-size: 15px;">
+            @app.route('/user/<username>') <br>
+            def show_user_profile(username): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;# show the user profile for that user <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return f'User {escape(username)}' <br>
+                
+            @app.route('/post/<int:post_id>') <br>
+            def show_post(post_id): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;# show the post with the given id, the id is an integer <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return f'Post {post_id}' <br>
+            
+            @app.route('/path/<path:subpath>') <br>
+            def show_subpath(subpath): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;# show the subpath after /path/ <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return f'Subpath {escape(subpath)}' <br>
+        </code>
+        <br>
+        <p>La ruta acepta un valor como variable y regresa dicho valor</p>
+
+    </article>
+    <nav class="blog-pagination" aria-label="Pagination">
+        <a class="btn btn-outline-primary rounded-pill" href="{{ url_for('main.flaskcli') }}">CLI de Flask</a>
+    </nav>
+</div>
+{% endblock %}

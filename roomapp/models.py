@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
@@ -12,9 +13,17 @@ class Temperature(db.Model):
 
         return (f"<Date: {self.Date}, Temperature: {self.Temperature}>")
 
+class UserModel(UserMixin):
+    def __init__(self, user_data):
+        """
+        :param user_data: UserData
+        """
+        self.id = user_data.usename
+        self.password = user_data.password
+
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
 
     password_hash = db.Column(db.String(128))

@@ -1,11 +1,18 @@
 from flask import Flask
-from .config import BaseConfig
 from flask_bootstrap import Bootstrap
-from ensurepip import bootstrap
-from flask_migrate import Migrate
-from .models import db
-import pymysql
 from flask_apscheduler import APScheduler
+from flask_login import LoginManager
+
+from .auth import auth
+from .config import BaseConfig
+from .models import db, UserModel
+
+login_manager = LoginManager()
+login_manager.login_view = 'auth_login'
+
+@login_manager.user_loader
+def load_user(username):
+    return UserModel.query(username)
 
 
 def create_app(test_config=None):
@@ -30,7 +37,7 @@ def create_app(test_config=None):
     from . import routes
 
     app.register_blueprint(routes.mainBP, url_prefix='/')
-
+    app.register_blueprint(auth)
     return app
 
 

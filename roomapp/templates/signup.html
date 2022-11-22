@@ -21,25 +21,25 @@
     </div>
     <div class="col-md-10 mx-auto col-lg-5">
       <form class="p-4 p-md-5 border rounded-3 bg-light" method="post">
-          {{ user_form.hidden_tag() }}
+          {{ signup_form.hidden_tag() }}
 
           <div class="form-floating mb-3">
-            {{ user_form.username(type="text", class="form-control", id="floatingInput", placeholder="username")}}
-            {{ user_form.username.label(for="floatingInput")}}
+            {{ signup_form.username(type="text", class="form-control", id="floatingInput", placeholder="username")}}
+            {{ signup_form.username.label(for="floatingInput")}}
           </div>
           <div class="form-floating mb-3">
-            {{ user_form.email(type="email", class="form-control", id="floatingInput", placeholder="name@example.com") }}
-            {{ user_form.email.label(for="floatingEmail") }}
+            {{ signup_form.email(type="email", class="form-control", id="floatingInput", placeholder="name@example.com") }}
+            {{ signup_form.email.label(for="floatingEmail") }}
           </div>
           <div class="form-floating mb-3">
-            {{ user_form.password_hash(type="password", class="form-control", id="floatingPassword", placeholder="Password") }}
-            {{ user_form.password_hash.label(for="floatingPassword") }}
+            {{ signup_form.password_hash(type="password", class="form-control", id="floatingPassword", placeholder="Password") }}
+            {{ signup_form.password_hash.label(for="floatingPassword") }}
           </div>
           <div class="form-floating mb-3">
-            {{ user_form.password_hash2(type="password", class="form-control", id="password_hash2", placeholder="Password") }}
-            {{ user_form.password_hash2.label(for="password_hash2") }}
+            {{ signup_form.password_hash2(type="password", class="form-control", id="password_hash2", placeholder="Password") }}
+            {{ signup_form.password_hash2.label(for="password_hash2") }}
           </div>
-          {{ user_form.submit(class="w-100 btn btn-lg btn-primary") }}
+          {{ signup_form.submit(class="w-100 btn btn-lg btn-primary") }}
       </form>
     </div>
   </div>

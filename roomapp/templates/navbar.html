@@ -34,8 +34,21 @@
             <li><a class="dropdown-item" href="{{ url_for('main.formsfile') }}">Archivo forms.py</a></li>
             <li><a class="dropdown-item" href="{{ url_for('main.routesfile') }}">Archivo routes.py</a></li>
             <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.notas') }}">Notas y atajos</a></li>
             <li><a class="dropdown-item" href="{{ url_for('main.flaskcli') }}">CLI de flask</a></li>
             <li><a class="dropdown-item" href="{{ url_for('main.filtros') }}">Filtros</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.cookies') }}">Cookies</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.session') }}">Session</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Ejercicios con flask
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ url_for('main.restapi') }}">Wings RESTWebApi</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.notaswings') }}">Notas y atajos wings</a></li>
           </ul>
         </li>
       </ul>

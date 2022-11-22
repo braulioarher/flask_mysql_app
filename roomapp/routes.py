@@ -1,7 +1,7 @@
 from crypt import methods
 from datetime import datetime
 from multiprocessing import context
-from flask import Blueprint, Flask, render_template, request, flash
+from flask import Blueprint, Flask, render_template, request, flash, make_response
 from roomapp import db
 from roomapp.models import Temperature, Users
 from .forms import TempForm, UserForm, PasswordForm
@@ -83,16 +83,16 @@ def addtempwtf():
 def adduser():
     user_form = UserForm()
     if user_form.validate_on_submit():
-        user = Users.query.filter_by(email=user_form.Email.data).first()
+        user = Users.query.filter_by(email=user_form.email.data).first()
         flash("Form submitted")
         if user is None:
             hashed_pw = generate_password_hash(user_form.password_hash.data, "sha256")
-            user = Users(name=user_form.Username.data, email=user_form.Email.data, password_hash=hashed_pw)
+            user = Users(name=user_form.Username.data, email=user_form.email.data, password_hash=hashed_pw)
             db.session.add(user)
             db.session.commit()
         username = user_form.Username.data
-        user_form.Username.data = ''
-        user_form.Email.data = ''
+        user_form.username.data = ''
+        user_form.email.data = ''
         user_form.password_hash.data = ''
     our_users = Users.query.order_by(Users.id)
     context = {
@@ -131,6 +131,8 @@ def test_pw():
     }
     return render_template("test_pw.html", **context)
 
+# Seccion de documentos de flask
+
 @mainBP.route('/createapp')
 def crearapp():
     return render_template('crearapp.html')
@@ -151,6 +153,12 @@ def formsfile():
 def routesfile():
     return render_template('routesfile.html')
 
+#Seccion de modulos de flask
+
+@mainBP.route('/notas/')
+def notas():
+    return render_template('notas.html')
+
 @mainBP.route('/flaskcli')
 def flaskcli():
     return render_template('flaskcli.html')
@@ -158,5 +166,38 @@ def flaskcli():
 @mainBP.route('/filtros')
 def filtros():
     return render_template('filtros.html')
+
+@mainBP.route('/cookies')
+def cookies():
+    return render_template('cookies.html')
+
+@mainBP.route('/session')
+def session():
+    return render_template('session.html')
+
+# Seccion de ejercios de Flask
+
+@mainBP.route('/restapi')
+def restapi():
+    return render_template('restapi.html')
+
+@mainBP.route('/notaswings')
+def notaswings():
+    return render_template('notaswings.html')
+
+
+
+
+@mainBP.route('/setcookie/')
+def setcookie():
+    resp = make_response("<h2>La cookie 'holacookie' se configuro")
+    resp.set_cookie('holacookie', 'hola')
+    return resp
+
+@mainBP.route('/getcookie/')
+def getcookie():
+    cookie1 = request.cookies.get('holacookie')
+    return(f"'holacookie' dice: {cookie1}")
+
 
 app.register_blueprint(mainBP)

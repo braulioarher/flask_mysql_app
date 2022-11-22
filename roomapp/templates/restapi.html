@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container" style="width: 80%;">
+
+      <article class="blog-post">
+        <br>
+        <h2>Aplicacion RESTApi de Wings</h2>
+        <br>
+        <p>Este ejercicio pide crear recursos para obtener informacion segun sea el caso del usuario que lo usa los cuales pueden ser: <b>SELLER</b> o tambien <b>CONSUMER</b> debemos usar un paquete que se llama <b>JWT</b> que significa <b>JSON Web Token</b> y sirve para autenticar usuarios para mas informacion visitar el siguiente video</p>
+
+        <iframe width="1000" height="630" src="https://www.youtube.com/embed/e-_tsR0hVLQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        
+        <p></p>
+
+        <blockquote class="blockquote">
+          <p>Requisitos.</p>
+        </blockquote>
+        <p>Para crear una aplicacion en Flas previamente se debe de tener instaldo el paquete de Flask en el entorno virtual esto lo podemos lograr usando el comando <b><i>pip install flask</i></b> una vez instalada la paquteria podemos crear una carpeta que incluya el archivo <b><i>__init__.py</i></b> o bien podemos crear un archivo llamado <b><i>main.py</i></b> este archivo sera la base de nuestra aplicacion dento de nuestra carpeta principal se puede crear sub carpetas como <b>templates</b> o <b>static</b> las cuales ayudan a tener mas orden en nustro proyecto adicional a las carpetas se pueden crear archivos como: <b><i>config.py</i></b>, <b><i>forms.py</i></b>, <b><i>models.py</i></b> y <b><i>routes.py</i></b> archivos los cuales ayudan a contener funciones y clases que le dan funcionalidades a nuestra aplicacion</p>
+        <h3>Estructura de nuestra aplicacion</h3>
+        <h6>foldername</h6>
+        <p>| - <b><i>__init__.py</i></b></p>
+        <p>| - <b><i>config.py</i></b></p>
+        <p>| - <b><i>forms.py</i></b></p>
+        <p>| - <b><i>models.py</i></b></p>
+        <p>| - <b><i>routes.py</i></b></p>
+        <p>| - <b><i>templates</i></b></p>
+        <p>| - <b><i>static</i></b></p>
+
+        <h3>Creado la app</h3>
+        <p>Para crear la aplicacion como se menciono ateriormente se puede hacer de dos formas bastantes similares la diefencia radica en el archivo <b><i>__init__.py</i></b> tenemos que crear una funcion que regrese nuestra aplicacion mientras que al usar  archivo <b><i>main.py</i></b> debemos de crear los comando como se muestran a continuacion</p>
+        <code style="color: blue; font-size: 15px;"> 
+                from flask import Flask <br>
+                from .config import BaseConfig <br>
+                from flask_sqlalchemy import SQLAlchemy <br>
+                from flask_migrate import Migrate <br><br>
+
+
+                app = Flask(__name__)               #Hacemos una instancia para crear la app <br>
+                app.config.from_object(BaseConfig)  #Cargamos las configuraciones de la app <br><br>
+                bootstrap = Bootstrap(app) <br>
+                db = SQLAlchemy(app) <br>
+                migrate = Migrate(app, db) <br>
+        </code>
+        <br>
+        <p>Una vez intanciadas nuestras variables de aplicacion podemos importar nuestra app desde nuestro archivo <b><i>main.py</i></b> usando <code>form foldername import app</code> de esta forma podemos exportar nuestra variable <b><i>FLASK_APP</i></b> a nuestra terminar usando el comando <code><b>export FLAS_APP=main.py</b></code></p>
+        <p>La siguiente manera es similar solo creado la funcion <b><i>create_app</i></b> y retornando la variable app</p>
+                <code style="color: blue; font-size: 15px;"> 
+                from flask import Flask <br>
+                from .config import BaseConfig <br>
+                from flask_bootstrap import Bootstrap <br>
+                from models import db <br> <br>
+
+                def create_app(test_config=None) <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;app = Flask(__name__)               #Hacemos una instancia para crear la app <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;app.config.from_object(BaseConfig)  #Cargamos las configuraciones de la app <br><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;bootstrap = Bootstrap(app) <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;db.app = app <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;db.init_app(app) <br><br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;return app <br>
+        </code>
+        <br>
+        <p>De esta forma entonces podemos exportar nuestra variable <b><i>FLASK_APP</i></b> a nuestra terminar usando el comando <code><b>export FLAS_APP=foldername</b></code></p>
+
+      <nav class="blog-pagination" aria-label="Pagination">
+        <a class="btn btn-outline-primary rounded-pill" href="{{ url_for('main.configfile') }}">Archivo config.py</a>
+      </nav>
+        </article>
+</div>
+{% endblock %}

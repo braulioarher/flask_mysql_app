@@ -8,8 +8,8 @@ class TempForm(FlaskForm):
     submit = SubmitField("Submit")
 
 class UserForm(FlaskForm):
-    Username = StringField('Username', [DataRequired()])
-    Email = StringField('Email', [DataRequired()])
+    username = StringField('Username', [DataRequired()])
+    email = StringField('Email', [DataRequired()])
     password_hash = PasswordField('Password', validators=[DataRequired(), EqualTo('password_hash2', message='Passwords Must Match!')])
     password_hash2 = PasswordField('Confirm Password', validators=[DataRequired()])
     submit = SubmitField('Submit')
