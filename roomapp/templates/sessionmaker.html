@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Notas y atajos para examen wings</h2>
+        <br>
+        <h3>Crear una session</h3>
+        <p>Cuando queremos hacer consultas a la base de datos se crea a travez de una session con SQLAlchemy podemos tener las sessiones que quedramos para esto recurrimos a la duncion <b><i>sessionmaker</i></b></p>
+        <blockquote class="blockquote">
+            <p>Creando una session</p>
+        </blockquote>
+        <code style="color: blue; font-size: 15px;">
+            from ecommerceapp import app
+            import os <br>
+            from sqlalchemy import create_engine <br>
+            from sqlalchemy.orm import sessionmaker <br>
+
+            basedir = os.path.abspath(os.path.dirname(__file__)) <br>
+            engine = create_engine('sqlite:///' + os.path.join(basedir, 'ecommerceapp.db')) <br>
+            db2 = SQLAlchemy(app) <br>
+            Session = sessionmaker(engine) <br>
+            session1 = Session() <br>
+
+            db2.Model.metadata.drop_all(engine) <br>
+            db2.Model.metadata.create_all(engine) <br>
+        </code>
+
+        <br>
+        <blockquote class="blockquote">
+            <p>Haciendo consultas usando la session1</p>
+        </blockquote>
+        <p>Con <b>session1</b> podemos hacer las consultas a nuestra base de datos usando nuestros models</p>
+        <code style="color: blue; font-size: 15px;">
+            # SELECT * FROM product join cart_product limmit 1; <br> 
+            product = session1.query(Product).join(CartProduct).first() <br> <br>
+            # SELECT * FROM category JOIN product WHERE category.category_id = product.category_id AND category.category_id = 5; <br>
+            category = session1.query(Category).join(Product, Category.category_id == Product.category_id).filter(Category.category_id==5).first() <br>
+        </code>
+        <br>
+        <blockquote class="blockquote">
+            <p>DELETE</p>
+        </blockquote>
+        <p>Todo lo que tiene que hacer es crear un nuevo objeto Person, agregarlo a la sesion de la base de datos y commit</p>
+        <code style="color: blue; font-size: 15px;">
+            Product.query.filter_by(product_id=product_id).delete() <br>
+            db.session.commit() <br>
+        </code>
+        <br>
+        <blockquote class="blockquote">
+            <p>UPDATE</p>
+        </blockquote>
+        <p>Para actualizar primero necesitamos seleccionar el registro de la base de datos, luego puedes actualizar la propiedad que desses y hacer commit nuevamente</p>
+        <code style="color: blue; font-size: 15px;">
+            person = Person.query.get(3) <br>
+            person.name = "Bob" <br>
+            db.session.commit() <br>
+        </code>
+        <br>
+        <p>La ruta regresa una respuesta con la informacion de dir y un codigo de respuesta</p>
+
+
+    </article>
+</div>
+{% endblock %}

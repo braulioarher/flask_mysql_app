@@ -12,21 +12,19 @@
 
         <iframe width="1000" height="630" src="https://www.youtube.com/embed/e-_tsR0hVLQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         
-        <p></p>
+        <br> <br>
 
-        <blockquote class="blockquote">
-          <p>Requisitos.</p>
-        </blockquote>
-        <p>Para crear una aplicacion en Flas previamente se debe de tener instaldo el paquete de Flask en el entorno virtual esto lo podemos lograr usando el comando <b><i>pip install flask</i></b> una vez instalada la paquteria podemos crear una carpeta que incluya el archivo <b><i>__init__.py</i></b> o bien podemos crear un archivo llamado <b><i>main.py</i></b> este archivo sera la base de nuestra aplicacion dento de nuestra carpeta principal se puede crear sub carpetas como <b>templates</b> o <b>static</b> las cuales ayudan a tener mas orden en nustro proyecto adicional a las carpetas se pueden crear archivos como: <b><i>config.py</i></b>, <b><i>forms.py</i></b>, <b><i>models.py</i></b> y <b><i>routes.py</i></b> archivos los cuales ayudan a contener funciones y clases que le dan funcionalidades a nuestra aplicacion</p>
-        <h3>Estructura de nuestra aplicacion</h3>
-        <h6>foldername</h6>
-        <p>| - <b><i>__init__.py</i></b></p>
-        <p>| - <b><i>config.py</i></b></p>
-        <p>| - <b><i>forms.py</i></b></p>
-        <p>| - <b><i>models.py</i></b></p>
-        <p>| - <b><i>routes.py</i></b></p>
-        <p>| - <b><i>templates</i></b></p>
-        <p>| - <b><i>static</i></b></p>
+        <h3>Join en SQLAlchemy</h3>
+        <p>Para crear un join usando SQLAlchemy similar al siguiente <b><i>select product.product_name, category.category_name from product join category on product.category_id = category.category_id;</i></b></p>
+        
+        <code style="color: blue; font-size: 15px;">
+          @app.route('/jsonify') <br>
+          def jsonify(): <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;dir = {'nombre': 'Braulio', 'edad': 24} <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;response = make_response(jsonify(dir), 401) <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;return response <br>
+      </code>
+      <br>
 
         <h3>Creado la app</h3>
         <p>Para crear la aplicacion como se menciono ateriormente se puede hacer de dos formas bastantes similares la diefencia radica en el archivo <b><i>__init__.py</i></b> tenemos que crear una funcion que regrese nuestra aplicacion mientras que al usar  archivo <b><i>main.py</i></b> debemos de crear los comando como se muestran a continuacion</p>

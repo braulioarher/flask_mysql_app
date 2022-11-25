@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Notas y atajos para examen wings</h2>
+        <br>
+        <h3>Consultas SQL</h3>
+        <p>A continuacion se muestran las consultas mas comunes a la hora de usar SQLAlchemy</p>
+        <blockquote class="blockquote">
+            <p>INSERT</p>
+        </blockquote>
+        <code style="color: blue; font-size: 15px;">
+            person = Person(username="braulio", email="braulio.arher@gmail.com") <br>
+            db.session.add(person) <br>
+            db.session.commit() <br>
+        </code>
+        <br>
+        <blockquote class="blockquote">
+            <p>SELECT</p>
+        </blockquote>
+        <p>Hay tres formas para devolver informacion de la base de dartos: 1. Buscar/Recuperar/Devolver todos los registros desde una tabla en particulart usando <b><i>MyModel.query.all()</i></b> 2. Buscar/Recuperar/Devolver un solo registro basado en su primary key usando <b><i>MyModel.query.get(id)</i></b> 3. Buscar/Recuperar/Devolver un grupo de registros basado en su consulta <b><i>Person.query.filter_by(arg=value, ...)</i></b></p>
+        <code style="color: blue; font-size: 15px;">
+            # aqui es como se buscan todas las personas <br>
+            all_people = Person.query.all() <br>
+            all_people = list(map(lambda x: x.serialize(), all_people)) <br> <br>
+            
+            # aqui es como se busca un grupo de personas con name = alex <br>
+            all_people = Person.query.filter_by(name='alex') <br>
+            all_people = list(map(lambda x: x.serialize(), all_people)) <br> <br>
+            
+            # aquí es cómo se busca a una persona con id = 3 (solo funciona con las primary key) <br>
+            person = Person.query.get(3) <br>
+        </code>
+        <br>
+        <blockquote class="blockquote">
+            <p>DELETE</p>
+        </blockquote>
+        <p>Todo lo que tiene que hacer es crear un nuevo objeto Person, agregarlo a la sesion de la base de datos y commit</p>
+        <code style="color: blue; font-size: 15px;">
+            Product.query.filter_by(product_id=product_id).delete() <br>
+            db.session.commit() <br>
+        </code>
+        <br>
+        <blockquote class="blockquote">
+            <p>UPDATE</p>
+        </blockquote>
+        <p>Para actualizar primero necesitamos seleccionar el registro de la base de datos, luego puedes actualizar la propiedad que desses y hacer commit nuevamente</p>
+        <code style="color: blue; font-size: 15px;">
+            person = Person.query.get(3) <br>
+            person.name = "Bob" <br>
+            db.session.commit() <br>
+        </code>
+        <br>
+        <p>La ruta regresa una respuesta con la informacion de dir y un codigo de respuesta</p>
+
+
+    </article>
+</div>
+{% endblock %}

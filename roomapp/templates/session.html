@@ -1,1 +1,27 @@
-<h1>Hola Session</h1>
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Notas y atajos para examen wings</h2>
+        <br>
+        <h3>flask.session</h3>
+        <p>Al contrario de las cookies, la informacion de session se almacena en el servidor. La session es el intervalo al cual el cliente se loggea en el servidor y cuando se desloggea, La informacion de la session se almacena encima de una cookie y el servidor la firma en un modo de encriptacion, para esta encriptacion la aplicacion se debe de definir SECRET_KEY en las configuraciones de la aplicacion</p>
+        <blockquote class="blockquote">
+            <p>Ejemplo de uso jsonify con make_response</p>
+        </blockquote>
+        <code style="color: blue; font-size: 15px;">
+            @app.route('/jsonify') <br>
+            def jsonify(): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;dir = {'nombre': 'Braulio', 'edad': 24} <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;response = make_response(jsonify(dir), 401) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return response <br>
+        </code>
+        <br>
+        <p>La ruta regresa una respuesta con la informacion de dir y un codigo de respuesta</p>
+
+
+    </article>
+</div>
+{% endblock %}
