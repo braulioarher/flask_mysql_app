@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Notas y atajos para examen wings</h2>
+        <br>
+        <h3>Peticiones HTTP</h3>
+        <p>Al trabajar con Web API's la comunicacion entre nuestros clientes y nuestra API se realiza usando peticiones HTTP la cual es un mensaje que vas desde una computadora a otra usando este protocolo. Cuando los clientes hacen esta peticion nuestro API la procesa y luego retorna una respuesta llamada respuesta HTTP. De manera general una peticion HTTP se divide en 3 partes</p>
+        <ul>
+            <li>Una linea de peticion</li>
+            <li>Un conjunto de campos cabecera</li>
+            <li>Un cuerpo, el cual es opcional</li>
+        </ul>
+        <h4>Linea de Peticion</h4>
+        <p>En una linea de peticion colocamos el metodo HTTP a utilizar (GET, POST, PUT, DELETE), la URI de la peticion y el protocolo HTTP a utilizar la estructura es: <b>METODO-HTTP URI PROTOCOLO-HTTP</b></p>
+
+        <h4>Cabecera de la peticion</h4>
+        <p>La cabecera son metadatos que se envian en la peticion para brindar informacion sobre la peticion. Cada cabecera se especifica con un nombre, luego dos puntos y seguido el valor de dicha cabecera ejemplo: <b>Cache-Control: no-cache</b> en la cabecera o header puede haber multiples cabeceras a continuacion veremos un ejemplo de uba peticion con la linea y la cabecera:</p>
+
+        <code style="color: blue; font-size: 15px;">
+            GET /api/autores HTTP/1.1 <br>
+            Host: en.wikipedia.org <br>
+            Cache-Control: no-cache <br>
+        </code>
+        <br>
+        <h4>Cuerpo de la peticion</h4>
+        <p>El cuerpo de la peticion es donde colocamos informacion adicional que vamos a enviar al servidor, podemos colocar desde el nombre y usuario de una persona hasta las respuesras de un formulario. El cuerpo es bastante importante pues representa en muchos casos el contenido que se quiere transmitir peticion con sus tres partes:</p>
+
+        <code style="color: blue; font-size: 15px;">
+            POST /api.autores HTTP.1.1 <br>
+            Host: miWebApi.com <br>
+            Content-Type: application/json <br>
+            Cache-Control: no-cache <br>
+            { <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"Nombre": "Braulio Arcos" <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"edad": 24 <br>
+            }
+        </code>
+        <br>
+        <br>
+        <h3>Respuestas HTTP</h3>
+        <p>Cuando el cliente envia una peticion HTTP el servidor debe de responder con una respuesta HTTP esta respuesta tambien tiene su propia estructura y las partes son:</p>
+        
+        <ul>
+            <li>Linea de estado</li>
+            <li>Cabecera</li>
+            <li>Cuerpo, el cual es opcional</li>
+        </ul>
+        <br>
+        <p>En la linea de estado se indica mediante codigos de estados el estado de la peticion, en la cabecera esta indica los conjuntos simialres a una peticion las cuales son enviadas por el servidor el cual puede enviar tantas cabeceras quiera. Y finalmente el servidor tiene la opcion de enviar un curpo con la data que desee transmitir, a traves del cuepo recibimos el HTML de una pagina web que queremos visualizar en nuestro navegador</p>
+        <p>Ejemplo de una respuesta HTTP:</p>
+
+        <code style="color: blue; font-size: 15px;">
+            HTTP/1.1 200 OK <br>
+            Date: Mon, 28 Nov 2020 17:39:10 GMT <br>
+            Server: gws <br>
+            Accept-Ranges: bytes <br>
+            Content-Length: 68894 <br>
+            Content-Type: text/html; charset=UTF-8 <br>
+
+            &#60;!doctype&#62; html&#62; &#60;html ... <br>
+
+        </code>
+    </article>
+</div>
+{% endblock %}

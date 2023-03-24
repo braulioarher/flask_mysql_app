@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Notas y atajos para examen wings</h2>
+        <br>
+        <h3>Codigos de estado HTTP</h3>
+        <p>Los codigos de estado HTTP son como notas cortas de un servidor que se insertan en una pagina web los codigos de estado se dividen en cinco tipos a continuacia se muestra una ligera expicacio de cada uno</p>
+        <ul>
+            <li><b>100s:</b> Codigos informativos que indican que la solicitu iniciada por el navegador continua</li>
+            <li><b>200s:</b> Los codigos con exito regresaron cuando la solicitud del navegador fue recibida, entendida y procesada por el servidor</li>
+            <li><b>300s:</b> Codigos de redireccionamiento devueltos cuando un nuevo recurso ha sido sustituido por el recurso solicitado</li>
+            <li><b>400s:</b> Codigos de error del cliente que indican que hubo un problema con la solicitud</li>
+            <li><b>500:</b> Codigos de error del servidor que indican que la solicitud fue aceptada, pero que un error en el servidor impidio que se cumpliera</li>
+        </ul>
+        <p>Aunque hay mas de 40 codigos diferentes lo mas porobale es que la mayoria de ellos sea bastante similaares por lo que a continuacion presentamos unas tablas con los codigos mas comunes que podemos encontrar</p>
+        <br>
+
+        <h4>Codigos de estado 100</h4> 
+        <br>
+        <table class="table table-striped">
+            <tr>
+                <th scope="col">Codigo</th>
+                <th scope="col">Descipcion</th>
+            </tr>
+            <tr>
+                <td><b>100</b></td>
+                <td><b>(Continuar)</b> significa que el servidor en cuestion ha recibido las cabeceras de solicitud de tu navegador y ahora esta listo para que el cuerpo de la solicitud sea enviado tambien haciendo la solicitudad mas eficiente</td>
+            </tr>
+            <tr>
+                <td><b>101</b></td>
+                <td><b>(Cambiando protocolos)</b> Tu navegador ha pedido al servidor que cambe los protocolos, y el servidor ha cumplido</td>
+            </tr>
+            <tr>
+                <td><b>103</b></td>
+                <td><b>(Primeros avisos)</b> Esto devuelve algunos encabezados de respuesta antes de que el resto de la respuesta de servidor este lista</td>
+            </tr>
+        </table>
+
+        <br>
+        <h4>Codigos de estado 200</h4> 
+        <br>
+        <table class="table table-striped">
+            <tr>
+                <th scope="col">Codigo</th>
+                <th scope="col">Descipcion</th>
+            </tr>
+            <tr>
+                <td><b>200</b></td>
+                <td><b>(Todo esta bien)</b> Este codigo es el codigo que se entrega cuando una pagina web o recurso actua como se espera</td>
+            </tr>
+            <tr>
+                <td><b>201</b></td>
+                <td><b>(Creado)</b> El servidor ha cumplido con la peticion del navegador y como resultado ha creado un nuevo recurso</td>
+            </tr>
+            <tr>
+                <td><b>202</b></td>
+                <td><b>(Aceptado)</b> El servidor ha aceptado la solicitud de tu navegador pero aun la esta procesando. La solicitud puede dar lugar o no a una respuesta completa</td>
+            </tr>
+            <tr>
+                <td><b>203</b></td>
+                <td><b>(Informacion no autorizada)</b> Significa que el servidor proxy recibio un codigo de estado de  200 (Todo esta bien) del servidor de origen pero ha modificado la respuesta antes de pasarla a su navegador</td>
+            </tr>
+            <tr>
+                <td><b>204</b></td>
+                <td><b>(Sin contenido)</b> El servidor ha procesado con exito la solicitud pero no va a devolver ningun contenido</td>
+            </tr>
+            <tr>
+                <td><b>205</b></td>
+                <td><b>(Restablecer contenido)</b> Como un código 204, esto significa que el servidor ha procesado la solicitud pero no va a devolver ningún contenido. Sin embargo, también requiere que tu navegador restablezca la vista del documento.</td>
+            </tr>
+            <tr>
+                <td><b>206</b></td>
+                <td><b>(Contenido parcial)</b> Se envía un código 206 cuando un encabezado de rango hace que el servidor envíe sólo una parte del recurso solicitado.</td>
+            </tr>
+            
+        </table>
+
+        <br>
+        <h4>Codigos de estado 300</h4> 
+        <br>
+        <table class="table table-striped">
+            <tr>
+                <th scope="col">Codigo</th>
+                <th scope="col">Descipcion</th>
+            </tr>
+            <tr>
+                <td><b>300</b></td>
+                <td><b>(Opciones multiples)</b> A veces puede haber multiples recursos posibles con los que el servidor puede responder para cumplir con la solicitud de su navegadir. Un codigo de estado 300 significa que tu navegador ahora tiene que elegir entre ellos.</td>
+            </tr>
+            <tr>
+                <td><b>301</b></td>
+                <td><b>(El recurso solicitado ha sido trasladado permanentemente)</b> Se entrega cuando una pagina web o un recurso ha sido remplazado permanentemente por un recurso diferente</td>
+            </tr>
+            <tr>
+                <td><b>302</b></td>
+                <td><b>(Recurso se ha movido pero fue encontrador)</b> Indica que el recurso solicitado se encontro pero no en el lugar donde se esperaba. Se utiliza para la redirección temporal de la URL.</td>
+            </tr>
+            <tr>
+                <td><b>303</b></td>
+                <td><b>(Ver otros)</b> Le dice al navegador que encontro el recurso via POST, PUT o DELETE, sin embargo para el metodo GET, necesita hacer la solicitud apropiada a un URL diferente al que uso anteriormente</td>
+            </tr>
+            <tr>
+                <td><b>304</b></td>
+                <td><b>(El recurso solicitado no ha sido modificado desde la ultima vez que accedio a el)</b> Dice que los recurso almacenados en el cavhe del navegador no han cambiado. Se usa para acelerar la entrega de páginas web reutilizando los recursos descargados previamente.</td>
+            </tr>
+            <tr>
+                <td><b>307</b></td>
+                <td><b>(Restablecer contenido)</b> Este codigo de estado ha reemplazado a 302 (Encontrado) como la acción apropiada cuando un recurso ha sido movido temporalmente a una URL diferente. A diferencia del código de estado 302, no permite que el método HTTP cambie.</td>
+            </tr>
+            <tr>
+                <td><b>308</b></td>
+                <td><b>(Rediccionamiento permanente)</b> Es el sucesor del codigo 301 (Movido permanentemente) No permite que el metodo HTTP cambie e indica ue el recursosolicitado esta ahora localizado permanentemente en una nueva URL</td>
+            </tr>
+        </table>
+
+
+        <br>
+        <h4>Codigos de estado 400</h4> 
+        <br>
+        <table class="table table-striped">
+            <tr>
+                <th scope="col">Codigo</th>
+                <th scope="col">Descipcion</th>
+            </tr>
+            <tr>
+                <td><b>400</b></td>
+                <td><b>(Mala peticion)</b> El servidor no puede devolver una respuesta debido a un error del cliente</td>
+            </tr>
+            <tr>
+                <td><b>401</b></td>
+                <td><b>(No autorizado o Requiere autorizacuion)</b> Esto es devuelto por el servidor cuando el recurso de destino carece de credenciales de autenticacion validas</td>
+            </tr>
+            <tr>
+                <td><b>402</b></td>
+                <td><b>(Pago requerido)</b> Indica que una solicitud no se puede cumplir debido a falta de los fondos necesarios</td>
+            </tr>
+            <tr>
+                <td><b>403</b></td>
+                <td><b>(Acceso a recurso prohibido)</b> Se devuelve cuando un usuario intenta acceder a algo que no tiene permiso para ver</td>
+            </tr>
+            <tr>
+                <td><b>404</b></td>
+                <td><b>(No se encontro el recurso solicitado)</b> El mas comun significa que el recurso no existe y el servidor no sabe si existio alguna vez</td>
+            </tr>
+            <tr>
+                <td><b>405</b></td>
+                <td><b>(Metodo no permitido)</b> Se genera cuando el servidor de alojamiento (servidor de origen) soporta el método recibido, pero el recurso de destino no lo hace. </td>
+            </tr>
+            <tr>
+                <td><b>406</b></td>
+                <td><b>(Respuesta no aceptable)</b> El recurso es capaz de generar solo contenido que no es aceptable segun los encabezamientos de aceptacion enviados en la solicitus</td>
+            </tr>
+            <tr>
+                <td><b>407</b></td>
+                <td><b>(Se requiere autenticacion de proxy)</b> Se está utilizando un servidor proxy que requiere que el navegador se autentifique antes de continuar.</td>
+            </tr>
+            <tr>
+                <td><b>408</b></td>
+                <td><b>(El servidor se agotó esperando el resto de la petición del navegador)</b> Este código se genera cuando un servidor se apaga mientras espera la solicitud completa del navegador. </td>
+            </tr>
+            <tr>
+                <td><b>409</b></td>
+                <td><b>(Conflicto)</b> El servidor no pudo procesar la solicitud porque hay un conflicto con el recurso correspondiente</td>
+            </tr>
+            <tr>
+                <td><b>410</b></td>
+                <td><b>(El recurso solicitado se ha ido y no volverá)</b></td>
+            </tr>
+            <tr>
+                <td><b>411</b></td>
+                <td><b>(Longitud requerida)</b> El recurso solicitado requiere que el cliente especifique una cierta longitud y que no lo hizo.</td>
+            </tr>
+            <tr>
+                <td><b>412</b></td>
+                <td><b>(La condicion previa fallo)</b>  Tu navegador incluyó ciertas condiciones en sus encabezados de solicitud, y el servidor no cumplió con esas especificacione</td>
+            </tr>
+            <tr>
+                <td><b>413</b></td>
+                <td><b>(Carga util demaciado grande)</b> Su solicitud es más grande de lo que el servidor está dispuesto o es capaz de procesar.</td>
+            </tr>
+            <tr>
+                <td><b>414</b></td>
+                <td><b>(URI demasiado largo)</b> Resultado de una solicitud GET que ha sido codificada como una cadena de consulta demasiado grande para que el servidor la procese.</td>
+            </tr>            
+            <tr>
+                <td><b>415</b></td>
+                <td><b>(Carga util demaciado grande)</b> Su solicitud es más grande de lo que el servidor está dispuesto o es capaz de procesar.</td>
+            </tr>         
+        </table>
+
+        <br>
+        <h4>Codigos de estado 500</h4> 
+        <br>
+        <table class="table table-striped">
+            <tr>
+                <th scope="col">Codigo</th>
+                <th scope="col">Descipcion</th>
+            </tr>
+            <tr>
+                <td><b>500</b></td>
+                <td><b>(Hubo un error en el servidor y la solicitud no se pudo completar)</b> Es un error generico que significa error en el servidor</td>
+            </tr>
+            <tr>
+                <td><b>501</b></td>
+                <td><b>(No implementado)</b> Indica qie el servidor no es complatible con la funcionalidad necesaria para cumplir con la solicitud</td>
+            </tr>
+            <tr>
+                <td><b>502</b></td>
+                <td><b>(Mala entrada)</b> Significa que un servidor ha recibido una respuesta invalidad de otro</td>
+            </tr>
+            <tr>
+                <td><b>503</b></td>
+                <td><b>(El servidor no esta disponible para manejar esta solicirud en este momento)</b> Puede ser devuelto por un servidor sobrecargado al no poder manejar solicitudes adicionales</td>
+            </tr>
+            <tr>
+                <td><b>504</b></td>
+                <td><b>(El servidor, actuando como una puerta de enlace, se ha agotado esperando a que otro servidor responda)</b></td>
+            </tr>
+            <tr>
+                <td><b>505</b></td>
+                <td><b>(Version HTTP no soportada)</b> El servidor no soporta la versión HTTP que el cliente usó para hacer la solicitud. </td>
+            </tr>
+            <tr>
+                <td><b>508</b></td>
+                <td><b>(Se alcanzo el limite de recursos)</b> Se han alcanzado los límites de recursos establecidos por tu alojamiento web</td>
+            </tr>
+            <tr>
+                <td><b>509</b></td>
+                <td><b>Limite de ancho de banda excedido)</b> Significa que tu sitio web está utilizando más ancho de banda del que permite tu proveedor de hosting. </td>
+            </tr>
+            <tr>
+                <td><b>511</b></td>
+                <td><b>(Se requiere autenticacion de la red)</b> Se envía cuando la red que está tratando de usar requiere alguna forma de autenticación antes de enviar su solicitud al servidor. </td>
+            </tr>
+            <tr>
+                <td><b>521</b></td>
+                <td><b>(El servidor web está caído)</b> Significa que su navegador web fue capaz de conectarse con éxito a Cloudflare, pero Cloudflare no fue capaz de conectarse al servidor web de origen</td>
+            </tr>       
+        </table>
+
+    </article>
+</div>
+{% endblock %}

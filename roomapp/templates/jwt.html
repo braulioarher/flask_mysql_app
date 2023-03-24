@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container" style="width: 80%;">
+    <article class="blog-post">
+        <br>
+        <h2>Notas y atajos para examen wings</h2>
+        <br>
+        <h3>Autenticacion con JWT(JSON Web Token)</h3>
+        <p>En python la libreria <b>PyJWT</b> nos ayuda a codificar y decodificar JSON Web Tokens, JWT es un estandar abierto de la industria(RFC 7519) para representar peticiones seguras entre dos partes es importante tener instalados <b>jwt</b> y <b>pyjwt</b> en nuestro entorno</p>
+
+        <h4>Ejemplo de uso</h4>
+
+        <code style="color: blue; font-size: 15px;">
+            >>> import jwt <br>
+            >>> encoded_jwt = jwt.encode({"some": "payload"}, "secret", algorithm="HS256") <br>
+            >>> print(encoded_jwt) <br>
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzb21lIjoicGF5bG9hZCJ9.4twFt5NiznN84AWoo1d7KO1T_yoc0Z6XOpOVswacPZg <br>
+            >>> jwt.decode(encoded_jwt, "secret", algorithms=["HS256"]) <br>
+            {'some': 'payload'} <br>
+        </code>
+        <br>
+
+        <h3>Implementando JWT en nuestra aplicacion</h3>
+
+        <p>Para poder requerir autorizacion en nuestras rutas debemos de declarar una funcion decoradora la cual cuando se requiere entrar a la ruta esta funcion verifica el token y regresa la funcion con la session en caso de token valido</p>
+        <code style="color: blue; font-size: 15px;">
+            def token_required(f): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;@wraps(f) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;def decorated(*args, **kwargs): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;token = None <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if 'x-access-token' in request.headers: <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;token = request.headers['x-access-token'] <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if not token: <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return jsonify({'Message':' Token is missing'}), 401 <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try: <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("yes") <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data = jwt.decode(token, app.config['SECRET_KEY'],  algorithms='HS256') <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(data) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current_user = User.query.filter_by(user_id=data['id']).first() <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(current_user.user_id) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(current_user.user_role) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except: <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return jsonify({'Message': 'Token is invalid'}), 401 <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return f(current_user, *args, **kwargs) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return decorated <br>
+        </code>
+        <br>
+        
+        <h3>Creando un token</h3>
+            
+        <p>La funcion decoradora anterior fue sirve solamente para confirmar si existe token y si es valido pero para generar un token debemos de crear una ruta de login</p>
+        <code style="color: blue; font-size: 15px;">
+
+            # Peticion get usando basic auth <br>
+            #curl http://localhost:5001/api/public/login -u "apple:pass_word" <br>
+            @app.route('/api/public/login', methods=['GET', 'POST']) <br>
+            def login(): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;username = request.authorization["username"] <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;password = request.authorization["password"] <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;auth_user = User.query.filter_by(user_name=username).first() <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if auth_user is None: <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return '',401 <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;else: <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db_user = auth_user.user_name <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hs_password = auth_user.password <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if check_password_hash(hs_password, password): <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;session['username'] = db_user <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;session['logged_in'] = True <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;session['role_id'] = auth_user.user_role <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;token = jwt.encode({ <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'user' : request.authorization["username"], <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'id': auth_user.user_id, <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'exp' : datetime.utcnow() + timedelta(seconds=60) <br> 
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}, app.config['SECRET_KEY'], algorithm="HS256") <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return jsonify({'token': token.decode('utf-8')}) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else: <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return '', 401 <br>
+
+        </code>
+        <br>
+        <p>Lo anterior hace una consulta a la base de datos verifica la contrasena en caso de que sea valido genera un JSON Web Token (JWT) que sera requerido al momento de ingresar a una ruta que necesite authorizacion al momento de requerir autizacion sera necesario usar el decorador <b>@token_required</b> para implementar la validacion</p>
+
+
+    </article>
+</div>
+{% endblock %}

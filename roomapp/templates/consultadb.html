@@ -9,6 +9,28 @@
         <h3>Consultas SQL</h3>
         <p>A continuacion se muestran las consultas mas comunes a la hora de usar SQLAlchemy</p>
         <blockquote class="blockquote">
+            <p>Consulta con oracion SQL</p>
+        </blockquote>
+        <code style="color: blue; font-size: 15px;">
+            from model.webvul import Users <br>
+            from sqlalchemy import exc <br>
+            import sqlite3 <br>
+            from __main__ import db <br><br>
+            
+            # Connects the database <br>
+            db = sqlite3.connect('webvuldatabase.db') <br> <br>
+        
+            # Sql Statement: used to fetch data from database <br>
+            get_user_query = "SELECT user_id, first_name, last_name FROM users WHERE `user_id` = '" + form_userid + "'" <br> <br>
+            
+            # returning the fetched data <br>
+            sqli_output = db.cursor().execute(get_user_query).fetchall() <br>
+            sqli_output = [Users(user_id=i[0], first_name=i[1], last_name=i[2]) for i in sqli_output] <br>
+            return None if sqli_output == [] else sqli_output <br>
+            
+        </code>
+        <br>
+        <blockquote class="blockquote">
             <p>INSERT</p>
         </blockquote>
         <code style="color: blue; font-size: 15px;">

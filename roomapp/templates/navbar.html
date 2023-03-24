@@ -58,10 +58,13 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{{ url_for('main.request') }}">flask.request</a></li>
             <li><a class="dropdown-item" href="{{ url_for('main.jsonify') }}">flask.jsonify</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.httprequest') }}">Peticiones HTTP</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.httpcodes') }}">Codigos de estado HTTP</a></li>
 
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{ url_for('main.consultadb') }}">Consultas a DB</a></li>
             <li><a class="dropdown-item" href="{{ url_for('main.sessionmaker') }}">sessionmaker</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.jwt') }}">jwt</a></li>
           </ul>
         </li>
       </ul>

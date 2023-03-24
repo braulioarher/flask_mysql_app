@@ -192,15 +192,26 @@ def request():
 def jsonify():
     return render_template('jsonify.html')
 
-@mainBP.route('/sessionmaker')
-def sessionmaker():
-    return render_template('sessionmaker.html')
+@mainBP.route('/httprequest')
+def httprequest():
+    return render_template('httprequest.html')
+
+@mainBP.route('/httpcodes')
+def httpcodes():
+    return render_template('httpcodes.html')
+
 
 @mainBP.route('/consultadb')
 def consultadb():
     return render_template('consultadb.html')
 
+@mainBP.route('/sessionmaker')
+def sessionmaker():
+    return render_template('sessionmaker.html')
 
+@mainBP.route('/jwt')
+def jwt():
+    return render_template('jwt.html')
 
 
 

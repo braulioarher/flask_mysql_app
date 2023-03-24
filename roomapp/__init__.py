@@ -2,7 +2,9 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_apscheduler import APScheduler
 from flask_login import LoginManager
+from flask_migrate import Migrate
 
+from db import db
 from .auth import auth
 from .config import BaseConfig
 from .models import db, UserModel
@@ -19,11 +21,12 @@ def create_app(test_config=None):
     app = Flask(__name__)
     app.config.from_object(BaseConfig)
 
-    #migrate = Migrate(app, db)
     bootstrap = Bootstrap(app)
 
-    db.app = app
     db.init_app(app)
+
+    migrate = Migrate(app, db)
+
 
     scheduler = APScheduler()
     scheduler.init_app(app)
@@ -38,6 +41,7 @@ def create_app(test_config=None):
 
     app.register_blueprint(routes.mainBP, url_prefix='/')
     app.register_blueprint(auth)
+
     return app
 
 
